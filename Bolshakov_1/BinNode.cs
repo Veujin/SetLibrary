@@ -47,7 +47,7 @@ namespace Bolshakov_1
         {
             var leftHeight = LeftChild != null ? LeftChild.Height : 0;
             var rightHeight = RightChild != null ? RightChild.Height : 0;
-            Height = Math.Max(leftHeight, rightHeight);
+            Height += Math.Max(leftHeight, rightHeight);
         }
         #endregion
     }
