@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Bolshakov_1
 {
-    class Tree<T>
+    public class Tree<T>
     {
         #region Properties
-        
-        public BinNode<T> Root { get; private set; }
 
         public int Count { get; private set; }
         #endregion
@@ -22,6 +20,27 @@ namespace Bolshakov_1
             Root = null;
             Count = 0;
         }
+
+        public void Add(T data)
+        {
+            if(Root != null)
+            {
+                Count++;
+                try
+                {
+                    Insert<T>(Root, ref data);
+                }
+                catch(NodeExistException excep)
+                {
+                    Count--;
+                }
+            }
+            else
+            {
+                Root = new BinNode<T>(ref data);
+                Count++;
+            }
+        }
         #endregion
 
         #region Private methods
@@ -29,18 +48,17 @@ namespace Bolshakov_1
         private static BinNode<Q> Insert<Q>(BinNode<Q> node,ref Q data)
         {
             if (node == null)
+            {
                 return new BinNode<Q>(ref data);
-            Find<Q>(node, data);
-            return Balance<Q>(node);
-        }
-
-        private static void Find<Q>(BinNode<Q> node, Q data)
-        {
+            }
             var newNodeKey = data.GetHashCode();
             if (node.Key > newNodeKey)
-                node.LeftChild = Insert<Q>(node.LeftChild,ref data);
+                node.LeftChild = Insert<Q>(node.LeftChild, ref data);
             else if (node.Key < newNodeKey)
-                node.RightChild = Insert<Q>(node.RightChild,ref data);
+                node.RightChild = Insert<Q>(node.RightChild, ref data);
+            else
+                throw new NodeExistException();
+            return Balance<Q>(node);
         }
 
         private static BinNode<Q> RightTurn<Q>(BinNode<Q> p)
@@ -85,5 +103,10 @@ namespace Bolshakov_1
             return p;
         }
         #endregion
+
+        #region Private members
+
+        private BinNode<T> Root;
+	    #endregion
     }
 }
