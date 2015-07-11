@@ -10,7 +10,8 @@ namespace Search_Tree_Tests
         [TestMethod]
         public void ZeroBalanceFactor_1()
         {
-            var testNode = new BinNode<int>(3);
+            var a = 3;
+            var testNode = new BinNode<int>(ref a);
 
             Assert.AreEqual(0, testNode.BalanceFactor);
         }

@@ -26,7 +26,24 @@ namespace Bolshakov_1
 
         #region Private methods
 
-        private static BinNode<T> RightTurn<T>(BinNode<T> p)
+        private static BinNode<Q> Insert<Q>(BinNode<Q> node,ref Q data)
+        {
+            if (node == null)
+                return new BinNode<Q>(ref data);
+            Find<Q>(node, data);
+            return Balance<Q>(node);
+        }
+
+        private static void Find<Q>(BinNode<Q> node, Q data)
+        {
+            var newNodeKey = data.GetHashCode();
+            if (node.Key > newNodeKey)
+                node.LeftChild = Insert<Q>(node.LeftChild,ref data);
+            else if (node.Key < newNodeKey)
+                node.RightChild = Insert<Q>(node.RightChild,ref data);
+        }
+
+        private static BinNode<Q> RightTurn<Q>(BinNode<Q> p)
         {
             var q = p.LeftChild;
 
@@ -38,7 +55,7 @@ namespace Bolshakov_1
             return q;
         }
 
-        private static BinNode<T> LeftTurn<T>(BinNode<T> p)
+        private static BinNode<Q> LeftTurn<Q>(BinNode<Q> p)
         {
             var q = p.RightChild;
 
@@ -50,20 +67,20 @@ namespace Bolshakov_1
             return q;
         }
 
-        private static BinNode<T> Balance<T>(BinNode<T> p)
+        private static BinNode<Q> Balance<Q>(BinNode<Q> p)
         {
             p.FixHeight();
             if(p.BalanceFactor==2)
             {
                 if (p.RightChild.BalanceFactor < 0)
-                    p.RightChild = RightTurn<T>(p.RightChild);
-                p = LeftTurn<T>(p);
+                    p.RightChild = RightTurn<Q>(p.RightChild);
+                p = LeftTurn<Q>(p);
             }
             if(p.BalanceFactor==-2)
             {
                 if (p.LeftChild.BalanceFactor < 0)
-                    p.LeftChild = LeftTurn<T>(p.LeftChild);
-                p = RightTurn<T>(p);
+                    p.LeftChild = LeftTurn<Q>(p.LeftChild);
+                p = RightTurn<Q>(p);
             }
             return p;
         }

@@ -35,7 +35,7 @@ namespace Bolshakov_1
 
         #region Public Methods
 
-        public BinNode(T data)
+        public BinNode(ref T data)
         {
             Data = data;
             Key = Data.GetHashCode();
