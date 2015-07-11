@@ -85,5 +85,38 @@ namespace Search_Tree_Tests
 
             Assert.AreEqual(expected, tree.Count);
         }
+
+        [TestMethod]
+        public void SearchNulltest()
+        {
+            var tree = new Tree<List<int>>();
+            var a = new List<int>();
+            var b = new List<int>();
+            var c = new List<int>();
+
+            tree.Add(a);
+            tree.Add(b);
+
+            var result = tree.Search(c);
+
+            Assert.AreEqual(null, result);
+        }
+
+        [TestMethod]
+        public void SearchNonNulltest()
+        {
+            var tree = new Tree<List<int>>();
+            var a = new List<int>();
+            var b = new List<int>();
+            var c = new List<int>();
+
+            tree.Add(a);
+            tree.Add(b);
+            tree.Add(c);
+
+            var result = tree.Search(c);
+
+            Assert.AreNotEqual(null, result);
+        }
     }
 }

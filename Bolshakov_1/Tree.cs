@@ -17,18 +17,18 @@ namespace Bolshakov_1
         
         public Tree()
         {
-            Root = null;
+            _root = null;
             Count = 0;
         }
 
         public void Add(T data)
         {
-            if(Root != null)
+            if(_root != null)
             {
                 Count++;
                 try
                 {
-                    Insert<T>(Root, ref data);
+                    Insert<T>(_root, ref data);
                 }
                 catch(NodeExistException excep)
                 {
@@ -37,9 +37,14 @@ namespace Bolshakov_1
             }
             else
             {
-                Root = new BinNode<T>(ref data);
+                _root = new BinNode<T>(ref data);
                 Count++;
             }
+        }
+
+        public BinNode<T> Search(T data)
+        {
+            return Find<T>(_root,ref data);
         }
         #endregion
 
@@ -102,11 +107,23 @@ namespace Bolshakov_1
             }
             return p;
         }
+
+        private static BinNode<Q> Find<Q>(BinNode<Q> p, ref Q data)
+        {
+            if (p == null)
+                return null;
+            var dataKey = data.GetHashCode();
+            if (dataKey < p.Key)
+                return Find<Q>(p.LeftChild, ref data);
+            else if (dataKey > p.Key)
+                return Find<Q>(p.RightChild, ref data);
+            return p;
+        }
         #endregion
 
         #region Private members
 
-        private BinNode<T> Root;
+        private BinNode<T> _root;
 	    #endregion
     }
 }
