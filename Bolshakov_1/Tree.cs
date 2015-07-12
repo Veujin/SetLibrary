@@ -30,7 +30,7 @@ namespace Bolshakov_1
                 Count++;
                 try
                 {
-                    Insert<T>(_root, ref data);
+                    _root = Insert<T>(_root, ref data);
                     _treeModified = true;
                 }
                 catch(NodeExistException excep)
