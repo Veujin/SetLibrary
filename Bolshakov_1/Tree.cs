@@ -19,27 +19,33 @@ namespace Bolshakov_1
         {
             _root = null;
             Count = 0;
+            _treeModified = true;
         }
 
-        public void Add(T data)
+        public bool Add(T data)
         {
+            bool result = true;
             if(_root != null)
             {
                 Count++;
                 try
                 {
                     Insert<T>(_root, ref data);
+                    _treeModified = true;
                 }
                 catch(NodeExistException excep)
                 {
                     Count--;
+                    result = false;
                 }
             }
             else
             {
                 _root = new BinNode<T>(ref data);
                 Count++;
+                _treeModified = true;
             }
+            return result;
         }
 
         public BinNode<T> Search(T data)
@@ -124,6 +130,8 @@ namespace Bolshakov_1
         #region Private members
 
         private BinNode<T> _root;
+
+        private bool _treeModified;
 	    #endregion
     }
 }

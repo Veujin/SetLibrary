@@ -18,6 +18,17 @@ namespace Search_Tree_Tests
         }
 
         [TestMethod]
+        public void TreeAddResultTest()
+        {
+            var tree = new Tree<int>();
+            tree.Add(3);
+            bool result = tree.Add(3);
+            var expected = false;
+
+            Assert.AreEqual(expected, tree.Count);
+        }
+
+        [TestMethod]
         public void TreeIntCountTest()
         {
             var tree = new Tree<int>();
