@@ -24,19 +24,15 @@ namespace Bolshakov_1
 
         public bool Add(T data)
         {
-            bool result = true;
+            bool result = false;
             if(_root != null)
             {
-                Count++;
-                try
+                bool modified;
+                _root = Insert<T>(_root, ref data,out modified);
+                if (modified)
                 {
-                    _root = Insert<T>(_root, ref data);
-                    _treeModified = true;
-                }
-                catch(NodeExistException excep)
-                {
-                    Count--;
-                    result = false;
+                    _treeModified = result = true;
+                    Count++;
                 }
             }
             else
@@ -53,7 +49,10 @@ namespace Bolshakov_1
             bool modified;
             _root = Delete<T>(_root,ref data, out modified);
             if (modified)
+            {
                 Count--;
+                _treeModified = true;
+            }
             return modified;
         }
 
@@ -107,19 +106,20 @@ namespace Bolshakov_1
             return Balance<Q>(p);
         }
 
-        private static BinNode<Q> Insert<Q>(BinNode<Q> node,ref Q data)
+        private static BinNode<Q> Insert<Q>(BinNode<Q> node,ref Q data,out bool treeModified)
         {
             if (node == null)
             {
+                treeModified = true;
                 return new BinNode<Q>(ref data);
             }
             var newNodeKey = data.GetHashCode();
             if (node.Key > newNodeKey)
-                node.LeftChild = Insert<Q>(node.LeftChild, ref data);
+                node.LeftChild = Insert<Q>(node.LeftChild, ref data, out treeModified);
             else if (node.Key < newNodeKey)
-                node.RightChild = Insert<Q>(node.RightChild, ref data);
+                node.RightChild = Insert<Q>(node.RightChild, ref data, out treeModified);
             else
-                throw new NodeExistException();
+                treeModified = false;
             return Balance<Q>(node);
         }
 
