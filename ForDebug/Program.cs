@@ -14,14 +14,14 @@ namespace ForDebug
             var tree = new Tree<List<int>>();
             var a = new List<int>();
             var b = new List<int>();
-            var c = new List<int>();
             var d = new List<int>();
+            var c = new List<int>();
 
             tree.Add(a);
             tree.Add(b);
-            tree.Add(c);
+            tree.Add(d);
 
-            var result = tree.Search(c);
+            var result = tree.Remove(c);
             var smt = 3;
         }
     }

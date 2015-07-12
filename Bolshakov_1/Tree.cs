@@ -48,13 +48,64 @@ namespace Bolshakov_1
             return result;
         }
 
+        public bool Remove(T data)
+        {
+            bool modified;
+            _root = Delete<T>(_root,ref data, out modified);
+            if (modified)
+                Count--;
+            return modified;
+        }
+
         public BinNode<T> Search(T data)
         {
             return Find<T>(_root,ref data);
         }
         #endregion
 
-        #region Private methods
+        #region Private Static methods
+
+        private static BinNode<Q> Delete<Q>(BinNode<Q> node,ref Q data,out bool treeModified)
+        {
+            treeModified = false;
+            if (node == null)
+                return null;
+            var dataKey = data.GetHashCode();
+            if(dataKey<node.Key)
+                node.LeftChild = Delete<Q>(node.LeftChild,ref data,out treeModified);
+            if(dataKey>node.Key)
+                node.RightChild = Delete<Q>(node.RightChild, ref data,out treeModified);
+            else
+            {
+                if (data.Equals(node.Data))
+                {
+                    treeModified = true;
+                    var l = node.LeftChild;
+                    var r = node.RightChild;
+                    if (r == null)
+                        return l;
+                    var min = FindMin<Q>(r);
+                    min.RightChild = RemoveMin<Q>(r);
+                    min.LeftChild = l;
+                    return Balance<Q>(min);
+                }
+                return node;
+            }
+            return Balance<Q>(node);
+        }
+
+        private static BinNode<Q> FindMin<Q>(BinNode<Q> p)
+        {
+            return p.LeftChild == null ? p : FindMin<Q>(p.LeftChild);
+        }
+
+        private static BinNode<Q> RemoveMin<Q>(BinNode<Q> p)
+        {
+            if (p.LeftChild == null)
+                return p.RightChild;
+            p.LeftChild = RemoveMin<Q>(p.LeftChild);
+            return Balance<Q>(p);
+        }
 
         private static BinNode<Q> Insert<Q>(BinNode<Q> node,ref Q data)
         {

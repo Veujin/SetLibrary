@@ -129,5 +129,40 @@ namespace Search_Tree_Tests
 
             Assert.AreNotEqual(null, result);
         }
+
+        [TestMethod]
+        public void DeletePlusResultTest()
+        {
+            var tree = new Tree<List<int>>();
+            var a = new List<int>();
+            var b = new List<int>();
+            var c = new List<int>();
+
+            tree.Add(a);
+            tree.Add(b);
+            tree.Add(c);
+
+            var result = tree.Remove(c);
+
+            Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void DeleteMinusResultTest()
+        {
+            var tree = new Tree<List<int>>();
+            var a = new List<int>();
+            var b = new List<int>();
+            var c = new List<int>();
+            var d = new List<int>();
+
+            tree.Add(a);
+            tree.Add(b);
+            tree.Add(d);
+
+            var result = tree.Remove(c);
+
+            Assert.AreEqual(false, result);
+        }
     }
 }
