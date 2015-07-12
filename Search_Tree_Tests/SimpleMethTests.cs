@@ -25,7 +25,7 @@ namespace Search_Tree_Tests
             bool result = tree.Add(3);
             var expected = false;
 
-            Assert.AreEqual(expected, tree.Count);
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]

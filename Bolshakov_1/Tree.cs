@@ -107,7 +107,7 @@ namespace Bolshakov_1
             }
             if(p.BalanceFactor==-2)
             {
-                if (p.LeftChild.BalanceFactor < 0)
+                if (p.LeftChild.BalanceFactor > 0)
                     p.LeftChild = LeftTurn<Q>(p.LeftChild);
                 p = RightTurn<Q>(p);
             }
